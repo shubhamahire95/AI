@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Resume Evaluator</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap">
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="brand"> AI Resume Evaluator</div>
+    <ul class="nav-links">
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Upload</a></li>
+      <li><a href="#">Builder</a></li>
+      <li><a href="#">Tips</a></li>
+    </ul>
+    <div class="user-email" id="user-email">Loading...</div>
+    <button class="logout-btn" id="logout-btn">Logout</button>
+  </nav>
+
+  <div class="theme-toggle">
+    <button onclick="setTheme('light')">🌞</button>
+    <button onclick="setTheme('dark')">🌙</button>
+    <button onclick="setTheme('blue')">💙</button>
+  </div>
+
+  <section class="hero">
+    <h1 id="welcome">Welcome, User</h1>
+    <p>Start creating smart, AI-powered resumes like a pro.</p>
+  </section>
+
+  <section class="overview">
+    <h2>📊 Project Overview</h2>
+    <p>AI-Powered Resume Evaluator is an advanced web app to upload, enhance, build, and score your resume using
+      artificial intelligence.</p>
+    <ul>
+      <li>🔍 Upload & Evaluate your Resume</li>
+      <li>🤖 AI-Powered Resume Builder</li>
+      <li>📈 Resume Scoring System</li>
+      <li>💼 Job Matching Recommendations</li>
+    </ul>
+  </section>
+
+  <section class="main-section">
+    <h2 class="section-title">🚀 Start Your Resume Journey</h2>
+
+    <div class="card-container">
+
+      <div class="card glass">
+        <h3>📊 Analyze Your Resume</h3>
+        <p>HR Helper,Many Resume Check With AI.</p>
+        <button class="action-btn" onclick="location.href='analyze.html'">Analyze Now</button>
+      </div>
+
+      <div class="card glass">
+        <h3>📄 Upload Resume</h3>
+        <p>Upload your resume and let AI evaluate it</p>
+        <label for="fileInput" class="custom-file-upload">📂 Choose File</label>
+        <input type="file" id="fileInput" style="display: none;" />
+        <button class="action-btn" onclick="uploadResume()">Upload Resume</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="resultSection" style="display: none;">
+    <h2 class="section-title">🧠 AI Resume Evaluator</h2>
+    <div class="result-card glass">
+      <p><strong>📄 File:</strong> <span id="resumeName">Your Resume.pdf</span></p>
+      <p><strong>🌟 Score:</strong> <span id="aiScore">82/100</span></p>
+      <p><strong>💡 Suggestions:</strong></p>
+      <ul id="suggestions">
+        <li>Add more action verbs</li>
+        <li>Include measurable achievements</li>
+        <li>Tailor resume to job description</li>
+      </ul>
+      <button class="action-btn" onclick="downloadReport()">Download Report</button>
+    </div>
+  </section>
+
+  <section class="tips glass">
+    <h2>💡 Resume Tips</h2>
+    <ul>
+      <li>Focus on achievements not responsibilities</li>
+      <li>Use bullet points</li>
+      <li>Keep it to 1 page max</li>
+      <li>Tailor for each job</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>🚀 Built by Shubham Ahire | 2025 &copy; | <span id="footer-email">Loading...</span></p>
+  </footer>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

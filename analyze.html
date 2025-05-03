@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Navbar</title>
+  <link rel="stylesheet" href="analyze.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<body>
+
+  <!-- navbar  -->
+
+  <header class="navbar">
+    <div class="logo">Analyze Your Resume</div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#">Home</a>
+      <a href="#">Multi Resume Check</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="menu-toggle" id="menuToggle">&#9776;</div>
+  </header>
+
+
+  <!-- Hero Section  -->
+
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Welcome to Analyze Your Resume</h1>
+      <p>Get instant feedback and score your resume with our smart AI-powered tool.</p>
+      <a href="#start" class="hero-btn">Start Now</a>
+    </div>
+  </section>
+
+
+
+  <!-- Requrment form  -->
+  <section class="requirement-form-section">
+    <h2>Enter Your Job Requirement</h2>
+    <form class="requirement-form" id="hrRequirementForm">
+      <div class="form-group">
+        <label for="role">Job Role / Position</label>
+        <input type="text" id="role" placeholder="e.g. Frontend Developer" required>
+      </div>
+      <div class="form-group">
+        <label for="experience">Minimum Experience Required (in years)</label>
+        <input type="number" id="experience" placeholder="e.g. 2" required>
+      </div>
+      <div class="form-group">
+        <label for="skills">Required Skills</label>
+        <input type="text" id="skills" placeholder="e.g. HTML, CSS, JavaScript" required>
+      </div>
+      <div class="form-group">
+        <label for="location">Preferred Location (Optional)</label>
+        <input type="text" id="location" placeholder="e.g. Mumbai / Remote" required>
+      </div>
+      <div class="form-group">
+        <label for="education">Minimum Education</label>
+        <input type="text" id="education" placeholder="e.g. B.E / B.Tech / MCA" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Job Description (Optional)</label>
+        <textarea id="description" placeholder="Describe the job role..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Save Requirement</button>
+    </form>
+  </section>
+
+
+
+  <!-- Hestory Save Logick JS -->
+
+  <script>
+    document.getElementById("hrRequirementForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const role = document.getElementById("role").value;
+      const experience = document.getElementById("experience").value;
+      const skills = document.getElementById("skills").value;
+      const location = document.getElementById("location").value;
+      const education = document.getElementById("education").value;
+      const description = document.getElementById("description").value;
+
+      const requirement = {
+        role,
+        experience,
+        skills: skills.split(',').map(skill => skill.trim().toLowerCase()),
+        location,
+        education,
+        description,
+      };
+
+      // Save to localStorage
+      localStorage.setItem("hrRequirement", JSON.stringify(requirement));
+
+      alert("Requirement saved successfully!");
+      document.getElementById("hrRequirementForm").reset();
+    });
+  </script>
+
+
+
+  <!-- Anylize Card  -->
+
+  <section class="analyze-section">
+    <h2>Analyze Your Resume</h2>
+    <div class="analyze-cards">
+
+
+
+      <!-- Single Resume Upload -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-file-alt icon"></i>
+          <h3>Upload Single Resume</h3>
+        </div>
+
+        <form id="resumeForm">
+          <label>Select Resume File:</label>
+          <input type="file" id="resumeFile" accept=".pdf, .doc, .docx" required />
+          <button type="submit">Analyze</button>
+        </form>
+
+        <div id="result" class="result"></div>
+      </div>
+
+
+
+      <!-- Multy Resume  -->
+
+      <div class="card">
+        <h3>📂 Upload Multiple Resumes</h3>
+
+        <!-- Number Input -->
+        <label for="resumeLimit">Enter Number of Resumes to Upload:</label>
+        <input type="number" id="resumeLimit" placeholder="1 to 1000000" min="1" max="1000000" required />
+
+        <!-- File Upload -->
+        <form id="multiUploadForm">
+          <label for="multiResumes">Select Resumes (.pdf, .doc, .docx):</label>
+          <input type="file" id="multiResumes" multiple accept=".pdf,.doc,.docx" required>
+          <button type="submit">Analyze Resumes</button>
+        </form>
+
+        <!-- 🚀 PDF Button -->
+        <button id="downloadPdfBtn" style="
+  margin-top: 20px;
+  background: linear-gradient(135deg, #5A67D8, #7F9CF5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+">
+          📄 Download PDF
+        </button>
+
+        <!-- Result -->
+        <ul id="uploadResults" class="result-list"></ul>
+      </div>
+
+
+
+
+  </section>
+
+
+  <!-- Resume Cheack Logick Js -->
+
+
+
+  <script>
+    document.getElementById('resumeForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('resumeFile');
+      const resultDiv = document.getElementById('result');
+
+      if (fileInput.files.length === 0) {
+        alert('Please select a resume file.');
+        return;
+      }
+
+      const fileName = fileInput.files[0].name.toLowerCase();
+
+      // Sample logic: if resume filename contains 'developer' -> selected
+      if (fileName.includes('developer')) {
+        resultDiv.textContent = "✅ Resume Analyzed: Selected 🎉";
+        resultDiv.className = "result success";
+      } else {
+        resultDiv.textContent = "❌ Resume Analyzed: Not Selected 😕";
+        resultDiv.className = "result fail";
+      }
+
+      resultDiv.style.display = "block";
+    });
+  </script> 
+
+
+
+  <!-- Multi resume upload and check logick  -->
+
+
+  
+  <script>
+const form = document.getElementById("multiUploadForm");
+const resumeLimitInput = document.getElementById("resumeLimit");
+const resumesInput = document.getElementById("multiResumes");
+const resultBox = document.getElementById("uploadResults");
+
+const scannedResumes = {}; // Store hash-based results
+
+// Function to get file hash
+async function getFileHash(file) {
+  const buffer = await file.arrayBuffer();
+  const digest = await crypto.subtle.digest("SHA-256", buffer);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Function to determine result based on filename (can be improved with AI later)
+function getResultBasedOnName(name) {
+  return name.toLowerCase().includes("developer")
+    ? "✅ Selected"
+    : "❌ Not Selected";
+}
+
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const limit = parseInt(resumeLimitInput.value);
+  const files = Array.from(resumesInput.files);
+  resultBox.innerHTML = "";
+
+  if (isNaN(limit) || limit < 1) {
+    resultBox.innerHTML = "<li style='color:red;'>Please enter a valid number.</li>";
+    return;
+  }
+
+  if (files.length === 0) {
+    resultBox.innerHTML = "<li style='color:red;'>Please select resume files to upload.</li>";
+    return;
+  }
+
+  if (files.length < limit) {
+    resultBox.innerHTML = `<li style='color:red;'>You've selected only ${files.length} files, but you mentioned ${limit}.</li>`;
+    return;
+  }
+
+  // If files are more than limit, show a message to the user
+  if (files.length > limit) {
+    resultBox.innerHTML = `<li style='color:orange;'>You've selected more than the limit. Only the first ${limit} files will be processed.</li>`;
+  }
+
+  // Process all files in parallel
+  const promises = files.slice(0, limit).map(async (file, i) => {
+    const hash = await getFileHash(file);
+
+    let result;
+    if (scannedResumes[hash]) {
+      result = scannedResumes[hash]; // Use cached result
+    } else {
+      result = getResultBasedOnName(file.name); // or AI logic
+      scannedResumes[hash] = result;
+    }
+
+    const li = document.createElement("li");
+    li.textContent = `${i + 1}. ${file.name} ➤ ${result}`;
+    return li;
+  });
+
+  // Wait for all files to be processed and then display results
+  const results = await Promise.all(promises);
+  results.forEach(li => resultBox.appendChild(li));
+});
+
+  </script> 
+
+
+
+
+  <!-- Pdf Download Logick In JS  -->
+
+  <script>
+    document.getElementById("downloadPdfBtn").addEventListener("click", function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const listItems = document.querySelectorAll("#uploadResults li");
+      if (listItems.length === 0) {
+        alert("No resume results available to download.");
+        return;
+      }
+
+      doc.setFontSize(16);
+      doc.text("Multi Resume Check Results", 10, 15);
+      doc.setFontSize(12);
+
+      let y = 30;
+      listItems.forEach((item, index) => {
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+        doc.text(`${item.textContent}`, 10, y);
+        y += 10;
+      });
+
+      doc.save("resume_results.pdf");
+    });
+  </script>
+
+
+
+<!-- About section  -->
+
+<!-- about.html -->
+<section id="about">
+  <div class="about-container">
+    <h2 class="about-title">About</h2>
+    <p class="about-text">
+      <strong>AI Resume Evaluator</strong> helps you analyze resumes instantly using smart AI. Upload one or many resumes, get instant feedback, and download reports in PDF — fast, accurate, and effortless.
+    </p>
+  </div>
+</section>
+
+
+<!-- Footer  -->
+ <!-- Footer Section -->
+<footer class="main-footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <h2>AI Resume Evaluator</h2>
+      <p>Empowering careers with smart resume insights.</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Multi Resume Check</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 AI Resume Evaluator. All rights reserved. | Made By Shubham.</p>
+  </div>
+</footer>
+
+
+
+
+
+
+
+  <!-- JS Links  -->
+  <script type="module" src="analyze.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+
+</html>

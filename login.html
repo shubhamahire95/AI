@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="login.css">
+  <script type="module" src="login.js"></script>
+</head>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyBy-Ibiu3q2W2ygOk4NyYLRoepz1_HdlGo",
+    authDomain: "ai-resume-evaluator.firebaseapp.com",
+    projectId: "ai-resume-evaluator",
+    storageBucket: "ai-resume-evaluator.firebasestorage.app",
+    messagingSenderId: "166761139845",
+    appId: "1:166761139845:web:ef0b20a6b1ab948458a3ec",
+    measurementId: "G-J2QTGZ4RD6"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  
+  console.log("Firebase Initialized!");
+</script>
+
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+  </div>
+
+  <script type="module" src="login.js"></script>
+</body>
+</html>
